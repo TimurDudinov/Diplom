@@ -7,7 +7,7 @@ N<-
 plus<-
 Vertices<-c(1:N)
 AmountEnds<-sample(1:(N-1),1)#amount end vertices
-NumberEnds<-sample(2:N,CountEnds)#numbers of end vertices
+NumberEnds<-sample(2:N,AmountEnds)#numbers of end vertices
 CountNotEnds<-length(Vertices[-(NumberEnds)])
 # matrix there are some end vertices
 GenIncidenMatrix <- function(N, plus) { 
