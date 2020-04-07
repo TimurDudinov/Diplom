@@ -6,10 +6,10 @@ library(installr)
 N<-
 plus<-
 Vertices<-c(1:N)
-CountEnds<-sample(1:(N-1),1)#выдает количество тупиковых вершин
-NumberEnds<-sample(2:N,CountEnds)#выдает их номера
+AmountEnds<-sample(1:(N-1),1)#amount end vertices
+NumberEnds<-sample(2:N,CountEnds)#numbers of end vertices
 CountNotEnds<-length(Vertices[-(NumberEnds)])
-# выдает матрицу, в которой несколько тупиковых вершин 
+# matrix there are some end vertices
 GenIncidenMatrix <- function(N, plus) { 
     M <- N * plus
     A <- matrix(0, nrow = N, ncol = M)
