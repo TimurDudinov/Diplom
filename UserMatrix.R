@@ -42,27 +42,6 @@ NameEdges<-function(IncidMatr)
   return(ColumnIndex)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 NumberPeople<-100
 
 UserMatrix<-matrix(0,nrow = NumberPeople,ncol = M)
@@ -74,7 +53,7 @@ for (j in 1:M)
 {
   if (IncidMatr[1,j] == 1)
   { k0<-k0+1
-  fire[k0]<-j #first random edge
+  fire[k0]<-j #random edge from first vertice
   }
 }
 for (pr in 1:NumberPeople)
@@ -82,7 +61,7 @@ for (pr in 1:NumberPeople)
 re<-sample(fire,1)#random edge
 UserMatrix[pr,re]<-1
 i<-1
-while (i != N+1)#идем по вершинам в матрице инцидентности
+while (i != N+1)#checking vertices in incidence matrix
 {
   if (IncidMatr[i,re] == -1)
   {
@@ -94,7 +73,7 @@ while (i != N+1)#идем по вершинам в матрице инциден
       k1<-k1+1
     if (IncidMatr[i,j] == 1)
       {
-      NumberEdge[k1]<-j# сюда положили номера столбцов из матрицы инцидентности, где есть 1
+      NumberEdge[k1]<-j# put number columns in IncidMatr where 1
      
     }
       j<-j+1
