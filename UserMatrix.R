@@ -16,31 +16,6 @@ CountNotEnds<-length(Vertices[-(NumberEnds)])
 IncidMatr<-GenIncidenMatrix(N,plus)
 
 M<-dim(IncidMatr)[2]
-NameEdges<-function(IncidMatr)
-{
-  ColumnIndex<-c()
-  for (i in 1:M)
-  {
-    ColumnIndex[i]<-0
-  }
-  Numbers<-c()
-  k2<-0
-  for (i in 1:(N-1))
-  {
-    j<-1
-    while(j!=M+1)
-    {
-      
-      if (IncidMatr[i,j] == 1)
-      { k2<-k2+1
-      Numbers[k2]<-j
-      ColumnIndex[k2]<-paste0("e",i,Numbers[k2])
-      }
-      j<-j+1
-    }
-  }
-  return(ColumnIndex)
-}
 
 NumberPeople<-100
 
