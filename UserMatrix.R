@@ -4,12 +4,12 @@ library(matlab)
 library(MASS)
 library(igraph)
 library(ggplot2)
-N<-7 # количество вершин в графе
-plus<-6 # количество исходящих ребер
+N<-7 
+plus<-6
 Vertices<-c(1:N)
-CountEnds<-sample(1:(N-1),1)#выдает количество конечных вершин
+AmountEnds<-sample(1:(N-1),1)
 
-NumberEnds<-sample(2:N,CountEnds)#выдает их номера
+NumberEnds<-sample(2:N,AmountEnds)
 
 CountNotEnds<-length(Vertices[-(NumberEnds)])
 
