@@ -1,0 +1,363 @@
+------------------------------------------------------------
+TAM 3.4-26 (2020-03-10 13:09:18) 
+R version 3.6.3 (2020-02-29) x86_64, mingw32 | nodename=L-510S | login=user 
+
+Date of Analysis: 2020-04-24 09:38:08 
+Time difference of 11.0824 secs
+Computation time: 11.0824 
+
+Multidimensional Item Response Model in TAM 
+
+IRT Model: 2PL
+Call:
+tam.mml(resp = Answers, irtmodel = "2PL", ndim = 2, xsi.fixed = xsi, 
+    control = list(maxiter = 150))
+
+------------------------------------------------------------
+Number of iterations = 150 
+Numeric integration with 441 integration points
+
+Deviance = -303.08 
+Log likelihood = 151.54 
+Number of persons = 10 
+Number of persons used = 10 
+Number of items = 9 
+Number of estimated parameters = 179 
+    Item threshold parameters = 174 
+    Item slope parameters = 0 
+    Regression parameters = 2 
+    Variance/covariance parameters = 3 
+
+AIC = 55  | penalty=358    | AIC=-2*LL + 2*p 
+AIC3 = 234  | penalty=537    | AIC3=-2*LL + 3*p 
+BIC = 109  | penalty=412.16    | BIC=-2*LL + log(n)*p 
+aBIC = -500  | penalty=-196.65    | aBIC=-2*LL + log((n-2)/24)*p  (adjusted BIC) 
+CAIC = 288  | penalty=591.16    | CAIC=-2*LL + [log(n)+1]*p  (consistent AIC) 
+AICc = -324  | penalty=-21.06    | AICc=-2*LL + 2*p + 2*p*(p+1)/(n-p-1)  (bias corrected AIC) 
+GHP = 0.7041     | GHP=( -LL + p ) / (#Persons * #Items)  (Gilula-Haberman log penalty) 
+
+------------------------------------------------------------
+EAP Reliability
+Dim1 Dim2 
+ NaN  NaN 
+------------------------------------------------------------
+Covariances and Variances
+   V1 V2
+V1  0  0
+V2  0  0
+------------------------------------------------------------
+Correlations and Standard Deviations (in the diagonal)
+   V1 V2
+V1  0  0
+V2  0  0
+------------------------------------------------------------
+Regression Coefficients
+     V1 V2
+[1,]  0  0
+------------------------------------------------------------
+Item Parameters -A*Xsi
+   item  N      M xsi.item AXsi_.Cat1 AXsi_.Cat2 AXsi_.Cat3 AXsi_.Cat4 AXsi_.Cat5 AXsi_.Cat6 AXsi_.Cat7
+1 Item1 10  5.100   -0.057      0.003     -0.770      0.397      0.596      1.466      0.583      1.825
+2 Item3  3  7.667   -3.152     -5.218    -18.498    -54.611    -49.725    -47.724    -46.752    -46.127
+3 Item4  2  6.500   -9.291    -13.706    -30.341    -46.029    -83.622    -77.780    -76.181    -76.243
+4 Item5  1  5.000  -19.800     -9.453    -23.434    -36.250    -61.641    -98.998         NA         NA
+5 Item6  4 16.250   -2.522      0.768     -1.528    -10.485    -17.553    -30.578    -68.476    -63.964
+6 Item7  3 14.667   -1.635      5.034      8.578     11.136      8.353      1.122    -13.288    -49.646
+7 Item8  4 26.250   -4.258    -11.267    -21.673    -37.197    -50.921    -64.091    -77.841   -101.921
+8 Item9  6 22.000   -1.057      3.920      6.744      9.605      9.496     10.402     12.227      9.924
+  AXsi_.Cat8 AXsi_.Cat9 AXsi_.Cat10 AXsi_.Cat11 AXsi_.Cat12 AXsi_.Cat13 AXsi_.Cat14 AXsi_.Cat15 AXsi_.Cat16
+1      2.550      2.303       0.786       0.005      -0.688          NA          NA          NA          NA
+2    -45.879    -46.032     -45.808     -45.691     -45.834     -46.122     -46.795     -48.019     -49.527
+3    -77.669    -83.621          NA          NA          NA          NA          NA          NA          NA
+4         NA         NA          NA          NA          NA          NA          NA          NA          NA
+5    -62.128    -61.012     -60.228     -59.755     -59.438     -58.564     -57.967     -57.608     -57.559
+6    -44.456    -42.255     -41.205     -40.651     -40.287     -40.164     -40.253     -39.971     -39.768
+7   -139.630   -135.596    -134.562    -133.433    -132.618    -131.977    -131.676    -131.482    -131.372
+8     -2.015    -39.048     -35.261     -33.804     -32.680     -32.080     -31.507     -31.120     -30.881
+  AXsi_.Cat17 AXsi_.Cat18 AXsi_.Cat19 AXsi_.Cat20 AXsi_.Cat21 AXsi_.Cat22 AXsi_.Cat23 AXsi_.Cat24 AXsi_.Cat25
+1          NA          NA          NA          NA          NA          NA          NA          NA          NA
+2     -53.578          NA          NA          NA          NA          NA          NA          NA          NA
+3          NA          NA          NA          NA          NA          NA          NA          NA          NA
+4          NA          NA          NA          NA          NA          NA          NA          NA          NA
+5     -57.701     -57.956     -58.409     -59.132     -59.435     -59.952     -60.829     -62.228     -64.129
+6     -39.589     -39.497     -39.407     -39.370     -39.388     -39.369     -39.468     -39.712     -40.208
+7    -131.358    -131.314    -131.296    -131.336    -131.441    -131.459    -131.560    -131.700    -131.734
+8     -30.037     -29.409     -28.990     -28.729     -28.567     -28.545     -28.680     -28.986     -29.527
+  AXsi_.Cat26 AXsi_.Cat27 AXsi_.Cat28 AXsi_.Cat29 AXsi_.Cat30 AXsi_.Cat31 AXsi_.Cat32 AXsi_.Cat33 AXsi_.Cat34
+1          NA          NA          NA          NA          NA          NA          NA          NA          NA
+2          NA          NA          NA          NA          NA          NA          NA          NA          NA
+3          NA          NA          NA          NA          NA          NA          NA          NA          NA
+4          NA          NA          NA          NA          NA          NA          NA          NA          NA
+5     -67.945     -68.084          NA          NA          NA          NA          NA          NA          NA
+6     -40.762     -41.590     -42.678     -44.610     -49.047          NA          NA          NA          NA
+7    -132.256    -132.589    -133.266    -134.123    -135.308    -139.769    -136.649    -140.503          NA
+8     -30.267     -31.238     -31.612     -31.925     -32.412     -32.822     -33.533     -34.684     -37.462
+  AXsi_.Cat35 AXsi_.Cat36 B.Cat1.Dim1 B.Cat1.Dim2 B.Cat2.Dim1 B.Cat2.Dim2 B.Cat3.Dim1 B.Cat3.Dim2 B.Cat4.Dim1
+1          NA          NA           0           0           0           0           0           0           0
+2          NA          NA           0           0           0           0           0           0           0
+3          NA          NA           0           0           0           0           0           0           0
+4          NA          NA           0           0           0           0           0           0           0
+5          NA          NA           0           1           0           2           0           3           0
+6          NA          NA           0           0           0           0           0           0           0
+7          NA          NA           0           1           0           2           0           3           0
+8     -37.848     -38.062           0           0           0           0           0           0           0
+  B.Cat4.Dim2 B.Cat5.Dim1 B.Cat5.Dim2 B.Cat6.Dim1 B.Cat6.Dim2 B.Cat7.Dim1 B.Cat7.Dim2 B.Cat8.Dim1 B.Cat8.Dim2
+1           0           0           0           0           0           0           0           0           0
+2           0           0           0           0           0           0           0           0           0
+3           0           0           0           0           0           0           0           0           0
+4           0           0           0           0           0           0           0           0           0
+5           4           0           5           0           6           0           7           0           8
+6           0           0           0           0           0           0           0           0           0
+7           4           0           5           0           6           0           7           0           8
+8           0           0           0           0           0           0           0           0           0
+  B.Cat9.Dim1 B.Cat9.Dim2 B.Cat10.Dim1 B.Cat10.Dim2 B.Cat11.Dim1 B.Cat11.Dim2 B.Cat12.Dim1 B.Cat12.Dim2
+1           0           0            0            0            0            0            0            0
+2           0           0            0            0            0            0            0            0
+3           0           0            0            0            0            0            0            0
+4           0           0            0            0            0            0            0            0
+5           0           9            0           10            0           11            0           12
+6           0           0            0            0            0            0            0            0
+7           0           9            0           10            0           11            0           12
+8           0           0            0            0            0            0            0            0
+  B.Cat13.Dim1 B.Cat13.Dim2 B.Cat14.Dim1 B.Cat14.Dim2 B.Cat15.Dim1 B.Cat15.Dim2 B.Cat16.Dim1 B.Cat16.Dim2
+1            0            0            0            0            0            0            0            0
+2            0            0            0            0            0            0            0            0
+3            0            0            0            0            0            0            0            0
+4            0            0            0            0            0            0            0            0
+5            0           13            0           14            0           15            0           16
+6            0            0            0            0            0            0            0            0
+7            0           13            0           14            0           15            0           16
+8            0            0            0            0            0            0            0            0
+  B.Cat17.Dim1 B.Cat17.Dim2 B.Cat18.Dim1 B.Cat18.Dim2 B.Cat19.Dim1 B.Cat19.Dim2 B.Cat20.Dim1 B.Cat20.Dim2
+1            0            0            0            0            0            0            0            0
+2            0            0            0            0            0            0            0            0
+3            0            0            0            0            0            0            0            0
+4            0            0            0            0            0            0            0            0
+5            0           17            0           18            0           19            0           20
+6            0            0            0            0            0            0            0            0
+7            0           17            0           18            0           19            0           20
+8            0            0            0            0            0            0            0            0
+  B.Cat21.Dim1 B.Cat21.Dim2 B.Cat22.Dim1 B.Cat22.Dim2 B.Cat23.Dim1 B.Cat23.Dim2 B.Cat24.Dim1 B.Cat24.Dim2
+1            0            0            0            0            0            0            0            0
+2            0            0            0            0            0            0            0            0
+3            0            0            0            0            0            0            0            0
+4            0            0            0            0            0            0            0            0
+5            0           21            0           22            0           23            0           24
+6            0            0            0            0            0            0            0            0
+7            0           21            0           22            0           23            0           24
+8            0            0            0            0            0            0            0            0
+  B.Cat25.Dim1 B.Cat25.Dim2 B.Cat26.Dim1 B.Cat26.Dim2 B.Cat27.Dim1 B.Cat27.Dim2 B.Cat28.Dim1 B.Cat28.Dim2
+1            0            0            0            0            0            0            0            0
+2            0            0            0            0            0            0            0            0
+3            0            0            0            0            0            0            0            0
+4            0            0            0            0            0            0            0            0
+5            0           25            0           26            0           27            0            0
+6            0            0            0            0            0            0            0            0
+7            0           25            0           26            0           27            0           28
+8            0            0            0            0            0            0            0            0
+  B.Cat29.Dim1 B.Cat29.Dim2 B.Cat30.Dim1 B.Cat30.Dim2 B.Cat31.Dim1 B.Cat31.Dim2 B.Cat32.Dim1 B.Cat32.Dim2
+1            0            0            0            0            0            0            0            0
+2            0            0            0            0            0            0            0            0
+3            0            0            0            0            0            0            0            0
+4            0            0            0            0            0            0            0            0
+5            0            0            0            0            0            0            0            0
+6            0            0            0            0            0            0            0            0
+7            0           29            0           30            0           31            0           32
+8            0            0            0            0            0            0            0            0
+  B.Cat33.Dim1 B.Cat33.Dim2 B.Cat34.Dim1 B.Cat34.Dim2 B.Cat35.Dim1 B.Cat35.Dim2 B.Cat36.Dim1 B.Cat36.Dim2
+1            0            0            0            0            0            0            0            0
+2            0            0            0            0            0            0            0            0
+3            0            0            0            0            0            0            0            0
+4            0            0            0            0            0            0            0            0
+5            0            0            0            0            0            0            0            0
+6            0            0            0            0            0            0            0            0
+7            0           33            0            0            0            0            0            0
+8            0            0            0            0            0            0            0            0
+ [ reached 'max' / getOption("max.print") -- omitted 1 rows ]
+
+Item Parameters Xsi
+                 xsi       se.xsi
+Item1_Cat1     0.003        0.000
+Item1_Cat2    -0.774        0.000
+Item1_Cat3     1.168        0.000
+Item1_Cat4     0.199        0.000
+Item1_Cat5     0.870        0.000
+Item1_Cat6    -0.883        0.000
+Item1_Cat7     1.242        0.000
+Item1_Cat8     0.725        0.000
+Item1_Cat9    -0.247        0.000
+Item1_Cat10   -1.517        0.000
+Item1_Cat11   -0.781        0.690
+Item1_Cat12   -0.693        0.791
+Item3_Cat1    -5.468          Inf
+Item3_Cat2   -13.530          Inf
+Item3_Cat3   -36.362          Inf
+Item3_Cat4     4.838        1.166
+Item3_Cat5     1.950        1.165
+Item3_Cat6     0.921        1.164
+Item3_Cat7     0.574        1.164
+Item3_Cat8     0.197        1.164
+Item3_Cat9    -0.205        1.164
+Item3_Cat10    0.172        1.164
+Item3_Cat11    0.065        1.164
+Item3_Cat12   -0.197        1.164
+Item3_Cat13   -0.341        1.164
+Item3_Cat14   -0.726        1.164
+Item3_Cat15   -1.278        1.164
+Item3_Cat16   -1.558        1.163
+Item3_Cat17   -4.108        1.161
+Item4_Cat1   -13.956 47453132.812
+Item4_Cat2   -16.885 47453132.812
+Item4_Cat3   -15.938 47453132.812
+Item4_Cat4   -37.843 47453132.812
+Item4_Cat5     5.852        1.414
+Item4_Cat6     1.599        1.414
+Item4_Cat7    -0.062        1.414
+Item4_Cat8    -1.427        1.414
+Item4_Cat9    -5.964        1.414
+Item5_Cat1    -9.453          Inf
+Item5_Cat2   -13.982          Inf
+Item5_Cat3   -12.816          Inf
+Item5_Cat4   -25.391          Inf
+Item5_Cat5   -37.358          Inf
+Item6_Cat1     1.868 27397079.003
+Item6_Cat2    -1.195 27397079.003
+Item6_Cat3    -7.857 27397079.003
+Item6_Cat4    -5.968 27397079.003
+Item6_Cat5   -11.925 27397079.003
+Item6_Cat6   -36.273 23726566.406
+Item6_Cat7     4.548        1.112
+Item6_Cat8     1.869        1.121
+Item6_Cat9     1.148        1.123
+Item6_Cat10    0.815        1.123
+Item6_Cat11    0.504        1.123
+Item6_Cat12    0.348        1.123
+Item6_Cat13    0.904        1.123
+Item6_Cat14    0.627        1.123
+Item6_Cat15    0.389        1.123
+Item6_Cat16    0.079        1.123
+Item6_Cat17   -0.111        1.123
+Item6_Cat18   -0.225        1.123
+Item6_Cat19   -0.423        1.123
+Item6_Cat20   -0.693        1.124
+Item6_Cat21   -0.272        1.124
+Item6_Cat22   -0.487        1.124
+Item6_Cat23   -0.844        1.124
+Item6_Cat24   -1.367        1.124
+Item6_Cat25   -1.871        1.124
+Item6_Cat26   -3.788        1.128
+Item6_Cat27   -0.109        1.442
+Item7_Cat1     6.784          Inf
+Item7_Cat2     5.294          Inf
+Item7_Cat3     4.309          Inf
+Item7_Cat4    -1.033          Inf
+Item7_Cat5    -5.481          Inf
+Item7_Cat6   -12.661          Inf
+Item7_Cat7   -35.358 27397079.003
+Item7_Cat8     5.209        1.354
+Item7_Cat9     2.214        1.362
+Item7_Cat10    1.064        1.363
+Item7_Cat11    0.568        1.363
+Item7_Cat12    0.379        1.364
+Item7_Cat13    0.138        1.364
+Item7_Cat14   -0.075        1.364
+Item7_Cat15    0.297        1.364
+Item7_Cat16    0.217        1.364
+Item7_Cat17    0.192        1.364
+Item7_Cat18    0.106        1.364
+Item7_Cat19    0.104        1.364
+Item7_Cat20    0.051        1.364
+Item7_Cat21   -0.004        1.364
+Item7_Cat22    0.032        1.364
+Item7_Cat23   -0.085        1.364
+Item7_Cat24   -0.230        1.364
+Item7_Cat25   -0.483        1.364
+Item7_Cat26   -0.540        1.364
+Item7_Cat27   -0.815        1.365
+Item7_Cat28   -1.074        1.365
+Item7_Cat29   -1.921        1.366
+Item7_Cat30   -4.425        1.371
+Item8_Cat1   -11.267          Inf
+Item8_Cat2   -10.406          Inf
+Item8_Cat3   -15.523          Inf
+Item8_Cat4   -13.724          Inf
+Item8_Cat5   -13.170          Inf
+Item8_Cat6   -13.749          Inf
+Item8_Cat7   -24.080          Inf
+Item8_Cat8   -37.710          Inf
+Item8_Cat9     4.064        1.010
+Item8_Cat10    1.060        1.008
+Item8_Cat11    1.155        1.007
+Item8_Cat12    0.838        1.007
+Item8_Cat13    0.664        1.007
+Item8_Cat14    0.323        1.007
+Item8_Cat15    0.219        1.007
+Item8_Cat16    0.135        1.007
+Item8_Cat17    0.038        1.007
+Item8_Cat18    0.067        1.007
+Item8_Cat19    0.042        1.007
+Item8_Cat20   -0.016        1.007
+Item8_Cat21   -0.081        1.007
+Item8_Cat22    0.006        1.007
+Item8_Cat23   -0.078        1.007
+Item8_Cat24   -0.118        1.007
+Item8_Cat25   -0.011        1.007
+Item8_Cat26   -0.499        1.007
+Item8_Cat27   -0.311        1.007
+Item8_Cat28   -0.653        1.007
+Item8_Cat29   -0.835        1.007
+Item8_Cat30   -1.163        1.006
+Item8_Cat31   -4.444        1.006
+Item8_Cat32    3.134        1.034
+Item8_Cat33   -3.847        1.039
+Item9_Cat1     3.670 23726566.406
+Item9_Cat2     2.574 23726566.406
+Item9_Cat3     2.611 23726566.406
+Item9_Cat4    -0.360 23726566.406
+Item9_Cat5     0.656 23726566.406
+Item9_Cat6     1.575 23726566.406
+Item9_Cat7    -2.553 23726566.406
+Item9_Cat8   -12.189 23726566.406
+Item9_Cat9   -37.283 23726566.406
+Item9_Cat10    3.777        0.853
+Item9_Cat11    1.440        0.848
+Item9_Cat12    1.108        0.847
+Item9_Cat13    0.581        0.847
+Item9_Cat14    0.554        0.847
+Item9_Cat15    0.368        0.847
+Item9_Cat16    0.220        0.847
+Item9_Cat17    0.824        0.847
+Item9_Cat18    0.611        0.847
+Item9_Cat19    0.401        0.847
+Item9_Cat20    0.243        0.847
+Item9_Cat21    0.145        0.847
+Item9_Cat22    0.004        0.847
+Item9_Cat23   -0.153        0.847
+Item9_Cat24   -0.323        0.847
+Item9_Cat25   -0.560        0.847
+Item9_Cat26   -0.758        0.847
+Item9_Cat27   -0.990        0.847
+Item9_Cat28   -0.393        0.846
+Item9_Cat29   -0.332        0.846
+Item9_Cat30   -0.506        0.846
+Item9_Cat31   -0.432        0.846
+Item9_Cat32   -0.732        0.845
+Item9_Cat33   -1.174        0.843
+Item9_Cat34   -2.808        0.839
+Item9_Cat35   -0.259        0.822
+Item9_Cat36    0.096        0.999
+Item10_Cat1   -0.902 33554432.000
+Item10_Cat2  -36.798 23726566.406
+Item10_Cat3    5.019        0.821
+Item10_Cat4    2.485        0.822
+Item10_Cat5    0.833        0.822
+Item10_Cat6    0.372        0.822
+Item10_Cat7    0.136        0.822
+Item10_Cat8    0.092        0.822
+Item10_Cat9   -0.149        0.822
+Item10_Cat10  -0.421        0.822
+Item10_Cat11  -1.589        0.822
+Item10_Cat12  -1.876        0.822
+Item10_Cat13  -4.380        0.823
+Item10_Cat14   4.062        1.150
+Item10_Cat15  -3.371        1.167
