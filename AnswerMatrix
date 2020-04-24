@@ -1,0 +1,49 @@
+library(Matrix)
+library(installr)
+library(matlab)
+library(MASS)
+library(igraph)
+library(ggplot2)
+library(TAM)
+N<-
+OutOfDegree<-
+IncidMatr<-GenIncidenMatrix(N,OutOfDegree)
+NumberPeople<-
+UserMatrix<-GenUserMatrix(IncidMatr,NumberPeople)
+
+
+GenAnswerMatrix<-function(IncidMatr,UserMatrix){
+
+nr<-c()
+nc<-c()
+for(i in 1:NumberPeople)
+{
+  nr[i]<-paste0("person",i)
+}
+for (i in 1:N)
+{
+  nc[i]<-paste0("Item",i)
+}
+Answers<-matrix(0,nrow=NumberPeople,ncol=N,dimnames = list(nr,nc))
+ne<-c()
+nv<-c()
+for (per in 1:NumberPeople)
+{
+  for (j in 1:M)
+{
+  if (UserMatrix[per,j] == 1)
+  {
+    ne[j]<-j
+    for (i in 1:N)
+    {
+      if (IncidMatr[i,j] == 1)
+      {
+        nv[i]<-i
+        Answers[per,i]<-j
+      }
+    }
+  }
+  }
+}
+return(Answers)
+}
