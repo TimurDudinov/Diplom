@@ -5,20 +5,24 @@ library(installr)
 #OutOfDegree -number of outcoming edges from every vertices
 N<-
 OutOfDegree<-
-
+AmountEnds<-sample(1:(N-2),1)
+NumberEnds<-c(sample(2:N,AmountEnds))
+NumberEnds<-NumberEnds[order(NumberEnds)]#order in increasing
 # get matrix where some end vertices 
 GenIncidenMatrix <- function(N, OutOfDegree) { 
+    
+    
     M <- N * OutOfDegree
-    AmountEnds<-sample(1:(N-1),1)
+    
     A <- matrix(0, nrow = N, ncol = M)
     
     edgesIndex <- 1
     for (i in 1:(N-AmountEnds))
     {
         
-            A[i,edgesIndex]<-1
-            A[i+1,edgesIndex]<- -1
-            edgesIndex<- edgesIndex+1
+        A[i,edgesIndex]<-1
+        A[i+1,edgesIndex]<- -1
+        edgesIndex<- edgesIndex+1
         
     }
     targets <- c(1:N)
@@ -49,9 +53,8 @@ GenIncidenMatrix <- function(N, OutOfDegree) {
     rm(k)
     Vertices<-c(1:N)
     Ends<-Vertices[-(1:(N-AmountEnds))]
-    NumberEnds<-c(sample(2:N,AmountEnds))
-    NumberEnds<-NumberEnds[order(NumberEnds)]#order in increasing
-#replace end rows    
+    
+    #replace end rows    
     tch<-c()
     tch1<-c()
     for ( i in 1:AmountEnds)
@@ -65,14 +68,18 @@ GenIncidenMatrix <- function(N, OutOfDegree) {
             tch1[i]<-NumberEnds[i] 
         }
     }
-    tch<-tch[!is.na(tch)]
+    if (length(tch) !=0)
+    {tch<-tch[!is.na(tch)]
     tch1<-tch1[!is.na(tch1)]
     
     for (i in 1:AmountEnds)
-    {
+    { 
+        if (is.na(tch[i]))
+        {break}
         copy<-A[tch[i],]
         A[tch[i],]<-A[tch1[i],]
         A[tch1[i],]<-copy
+    }
     }
     return(A)
 }
