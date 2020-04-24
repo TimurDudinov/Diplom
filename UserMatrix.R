@@ -4,35 +4,12 @@ library(matlab)
 library(MASS)
 library(igraph)
 library(ggplot2)
+library(TAM)
 N<-
 OutOfDegree<-
 IncidMatr<-GenIncidenMatrix(N,OutOfDegree)
 
-teta<-c(rnorm(1,mean = 0,sd=1))
-a<-c(rnorm(N))
-#b<-c(rnorm(N))
-z<-c(a*teta)
-p<-c(exp(z[1:OutOfDegree])/sum(exp(z[1:OutOfDegree])))# for each item
-
-NameEdges<-function(IncidMatr)
-{
-  ColumnIndex<-vector(mode ="integer", length = M)
-  nv<-vector(mode ="integer", length = M)
-  ne<-c(1:M)
-  for (j in 1:M)
-  { i<-1
-  while(i !=N+1)
-  {
-    if (IncidMatr[i,j]==1)
-    {
-      nv[j]<-i
-    }
-    i<-i+1
-  }
-  }
-  ColumnIndex<-paste0("e",nv,ne)
-  return(ColumnIndex)
-}
+NumberPeople<-10
 
 NameRows<-function(NumberPeople)
 {
@@ -41,15 +18,18 @@ NameRows<-function(NumberPeople)
   return(persons)
 }
 
-M<-dim(IncidMatr)[2]
-NumberPeople<-10
-
+a<-c(rnorm(N))
+b<-c(rnorm(N))
+teta<-c(rnorm(NumberPeople,mean = 0,sd=1))
+z<-c(a*teta+b)
+p<-c(exp(z[1:OutOfDegree])/sum(exp(z[1:OutOfDegree])))
 GenUserMatrix<-function(IncidMatr,NumberPeople)
 {
+# for each item
+copy<-NumberEnds
 nr<-NameRows(NumberPeople)
-ne<-NameEdges(IncidMatr)
-UserMatrix<-matrix(0,nrow = NumberPeople,ncol = M,dimnames = list(nr,ne))
-NumberVertex<-0       
+M<-dim(IncidMatr)[2]
+UserMatrix<-matrix(0,ncol = M,nrow = NumberPeople,dimnames = list(nr,NULL))
 NumberEdge<-c()
 fire<-c()
 for (j in 1:M)
@@ -62,34 +42,40 @@ for (j in 1:M)
 fire<-fire[!is.na(fire)]
 for (pr in 1:NumberPeople)
 {
-  re<-sample(fire,1,prob=p)#random edge
+
+  re<-sample(fire,1,prob = p)#random edge
   UserMatrix[pr,re]<-1
-  i<-1
-  while (i != N+1)#go on vertex in incidence matrix
-  {
+  NumberEnds<-copy
+while (length(NumberEnds) == AmountEnds)
+  { i<-1
+    while(i !=N+1)
+    {
     if (IncidMatr[i,re] == -1)
     {
-      NumberVertex<-i
+      
       j<-1
       while (j!=M+1)
       {
         
         if (IncidMatr[i,j] == 1)
         {
-          NumberEdge[j]<-j# numbers of columns where 1
+          NumberEdge[j]<-j# сюда положили номера столбцов из матрицы инцидентности, где есть 1
           
         }
         j<-j+1
       }
-      NumberEdge<-NumberEdge[!is.na(NumberEdge)]
+      NumberEdge<-NumberEdge[!is.na(NumberEdge)]#delete NA
       if (is.null(NumberEdge) != T)
       {
-        re<-sample(NumberEdge,1,prob=p)#next random edge
+        re<-sample(NumberEdge,1,prob = p)#next random edge
         UserMatrix[pr,re]<-1
+      }else{#we are in end vertex
+        NumberEnds<-NumberEnds[-(which(NumberEnds==i))]# delete this vertex
       }
     }
     NumberEdge<-c()
     i<-i+1
+  }
   }
 }
 return(UserMatrix)
