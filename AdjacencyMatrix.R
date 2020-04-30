@@ -23,7 +23,7 @@ ZeroVector <- function(N) {
 FillingAdjMatr <- function(IncidMatr) {
     M <- dim(IncidMatr) #dimension of incidence matrix
     edgeRow <- 1
-    while (edgeRow != N) {
+    while (edgeRow != N+1) {
         j <- 1
         while (j != M[2] + 1) {
             if (IncidMatr[edgeRow, j] == 1) {
