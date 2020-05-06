@@ -24,12 +24,12 @@ for (i in 1:N)
 {
   nc[i]<-paste0("Item",i)
 }
-Answers<-matrix(0,nrow=NumberPeople,ncol=N,dimnames = list(nr,nc))
+Answers<-matrix(NA,nrow=NumberPeople,ncol=N,dimnames = list(nr,nc))
 ne<-c()
 nv<-c()
 for (per in 1:NumberPeople)
 {
-  for (j in 1:M)
+  for (j in 1:dim(IncidMatr)[2])
 {
   if (UserMatrix[per,j] == 1)
   {
@@ -45,5 +45,40 @@ for (per in 1:NumberPeople)
   }
   }
 }
+k<-(dim(IncidMatr)[2])/OutOfDegree #номера ребер в графе,которые приходятся на каждую категорию
+#Первые k - это 0 категория, вторые k - первая и так дале... до (OutOfDegree-1) 
+voog<-c(0:(OutOfDegree-1))
+for (per in 1:NumberPeople)
+{
+  E<-c()
+  IME<-c(1:dim(IncidMatr)[2])
+  j<-1
+  while (j!=N+1)
+  {  
+    if (!is.na(Answers[per,j]))
+    {
+      E[j]<-Answers[per,j]# получаем номера ребер,выходящих из вершины
+    }
+    j<-j+1
+  }
+  f<-1
+  while (f!=OutOfDegree+1)
+  {for (i in 1:length(E))
+  {
+    if (E[i]%in%IME[1:k])# если номер ребра лежит среди k номеров,то в E номер ребра заменяется
+      # на номер категории
+    {
+      E[i]<-voog[f]
+    }
+  }
+    IME<-IME[-(1:k)]
+    f<-f+1
+  }
+  Answers[per,(1:length(E))]<-E
+}
+Answers<-Answers[,-NumberEnds]# удаляются нулевые столбцы
 return(Answers)
 }
+
+# 2PL.  MML
+modeMML<-tam.mml.2pl(resp=Answers,irtmodel="2PL")
