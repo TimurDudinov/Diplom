@@ -6,12 +6,28 @@ library(installr)
 N<-
 OutOfDegree<-
 AmountEnds<-sample(1:(N-2),1)
-NumberEnds<-c(sample(2:N,AmountEnds))
-NumberEnds<-NumberEnds[order(NumberEnds)]#order in increasing
-# get matrix where some end vertices 
+Vertices<-c(1:N)
+#Ends<-Vertices[-(1:(N-AmountEnds))]
+#NumberEnds<-c(sample(2:N,AmountEnds))
+#NumberEnds<-NumberEnds[order(NumberEnds)]#упорядочили по возрастанию
+NumberEnds<-Vertices[-(1:(N-AmountEnds))]
+DelZeroColumn<-function(A){
+    B<-A
+    k <- 0
+    for (i in 1:length(A[1,])){
+        if (sum(A[, i] == 0) == length(A[,1])) {
+            B <- B[,-i + k]
+            k <- k + 1
+        }
+    }
+    A<-B
+    rm(B)
+    rm(k)
+    return(A)
+}
+
+
 GenIncidenMatrix <- function(N, OutOfDegree) { 
-    
-    
     M <- N * OutOfDegree
     
     A <- matrix(0, nrow = N, ncol = M)
@@ -39,48 +55,8 @@ GenIncidenMatrix <- function(N, OutOfDegree) {
         }
     }
     }
-    #удаление нулевых столбцов
-    B<-A
-    k <- 0
-    for (i in 1:length(A[1,])){
-        if (sum(A[, i] == 0) == length(A[,1])) {
-            B <- B[,-i + k]
-            k <- k + 1
-        }
-    }
-    A<-B
-    rm(B)
-    rm(k)
-    Vertices<-c(1:N)
-    Ends<-Vertices[-(1:(N-AmountEnds))]
-    
-    #replace end rows    
-    tch<-c()
-    tch1<-c()
-    for ( i in 1:AmountEnds)
-    {
-        if ((Ends[i] %in% NumberEnds) == F)
-        {
-            tch[i]<-Ends[i]
-        }
-        if ((NumberEnds[i] %in% Ends)==F)
-        {
-            tch1[i]<-NumberEnds[i] 
-        }
-    }
-    if (length(tch) !=0)
-    {tch<-tch[!is.na(tch)]
-    tch1<-tch1[!is.na(tch1)]
-    
-    for (i in 1:AmountEnds)
-    { 
-        if (is.na(tch[i]))
-        {break}
-        copy<-A[tch[i],]
-        A[tch[i],]<-A[tch1[i],]
-        A[tch1[i],]<-copy
-    }
-    }
+    #удаляем нулевые столбцы
+    A<-DelZeroColumn(A)
     return(A)
 }
 
