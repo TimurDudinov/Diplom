@@ -5,6 +5,8 @@ library(MASS)
 library(igraph)
 library(ggplot2)
 library(TAM)
+library(SimDesign)#for calculate bias
+library(Metrics)# for RMSE
 N<-
 OutOfDegree<-
 IncidMatr<-GenIncidenMatrix(N,OutOfDegree)
@@ -81,4 +83,18 @@ return(Answers)
 }
 
 # 2PL.  MML
+UserMatr<-GenUserMatrix(IncidMatr,NumberPeople)
+Answers<-GenAnswerMatrix(IncidMatr,UserMatr)
+modeMML<-tam.mml.2pl(resp=Answers,irtmodel="2PL")
+fit<-tam.mml.2pl(resp=Answers,irtmodel = "2PL")
+estimated_beta<-fit$AXsi[,2]
+beta_se<-fit$se.AXsi[,2]
+b<-b[-NumberEnds]
+cor(estimated_beta,b)
+estimated_theta <- IRT.factor.scores(fit)[, 1]
+estimated_theta_se <- IRT.factor.scores(fit)[, 2]
+bias(estimated_theta,parameter=t)
+rmse(actual = t,predicted = estimated_theta)
+#JML
+modeJML<-tam.jml(resp=Answers)
 modeMML<-tam.mml.2pl(resp=Answers,irtmodel="2PL")
