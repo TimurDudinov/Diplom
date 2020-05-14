@@ -281,3 +281,7 @@ for (i in 1:k)
   Bias[i]<-bias(parameter=t,estimated_theta)
   RMSE[i,]<-RMSE(estimate=estimated_theta,parameter = t)
 }
+#plotting
+plot(t,type = "l",col="red")
+points(ET[1,],col="green")
+lines(ET[1,],col="green")
