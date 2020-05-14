@@ -72,16 +72,19 @@ NameRows<-function(NumberPeople) #
   return(persons)
 }
 t<-c(rnorm(NumberPeople))
-A<-matrix(0,ncol=OutOfDegree,nrow=(N-AmountEnds))
-for (i in 1:(N-AmountEnds))
-{ a<-c(rnorm(OutOfDegree))
-A[i,]<-a
+Itparam<-function(N,A) #создает матрицу параметров вопроса
+{
+  A<-matrix(0,nrow = (N-AmountEnds),ncol = OutOfDegree)
+  for(i in 1:(N-AmountEnds))
+  {
+    a<-c(rnorm(OutOfDegree))
+    A[i,]<-a
+  }
+  return(A)
 }
-B<-matrix(0,ncol=OutOfDegree,nrow=(N-AmountEnds))
-for (i in 1:(N-AmountEnds))
-{ b-c(rnorm(OutOfDegree))
-  B[i,]<-b
-}
+t<-c(rnorm(NumberPeople))
+A<-Itparam(N,A)
+B<-Itparam(N,B)
 GenUserMatrix<-function(IncidMatr,NumberPeople)
 { 
   copy<-NumberEnds
@@ -147,7 +150,7 @@ GenUserMatrix<-function(IncidMatr,NumberPeople)
         NumberEdge<-NumberEdge[!is.na(NumberEdge)]
         if (is.null(NumberEdge) != T)
         {
-          p<-P[nv,]
+          p<-P[nv,]# вероятность с учетом параметров вопроса,куда будем переходить по ребру из NumberEdge
           re<-sample(NumberEdge,1,prob = p)#следующее ребро
           UserMatrix[pr,re]<-1
         }else{#если NumberEdge нулевой,то мы находимя в термиенальной вершине
@@ -163,9 +166,9 @@ GenUserMatrix<-function(IncidMatr,NumberPeople)
 }
 UserMatrix<-GenUserMatrix(IncidMatr,NumberPeople)
 #матрица ответов
-InCategories<-function(Answers){
+InCategories<-function(Answers){ # размещает ребра-ответы по категориям
   M<-dim(IncidMatr)[2]
-  Categories<-matrix(0,ncol=OutOfDegree,nrow=(N-AmountEnds))
+  Categories<-matrix(0,ncol=OutOfDegree,nrow=(N-AmountEnds))#матрица, в которой номер столбца - это номер категории минус 1
   for (i in 1:(N-AmountEnds))
   { ne<-c()
   j<-1
@@ -238,18 +241,43 @@ GenAnswerMatrix<-function(IncidMatr,UserMatrix){
 #оценки
 # 2PL.  MML
 #оценка,смещение
-UserMatr<-GenUserMatrix(IncidMatr,NumberPeople)
-Answers<-GenAnswerMatrix(IncidMatr,UserMatr)
-modeMML<-tam.mml.2pl(resp=Answers,irtmodel="2PL")
-summary(modeMML,file="1.txt")
-fit<-tam.mml.2pl(resp=Answers,irtmodel = "2PL")
-estimated_beta<-fit$AXsi[,2]
-beta_se<-fit$se.AXsi[,2]
-b<-b[-NumberEnds]
-cor(estimated_beta,b)
-estimated_theta <- IRT.factor.scores(fit)[, 1]
-estimated_theta_se <- IRT.factor.scores(fit)[, 2]
-bias(estimated_theta,parameter=t)
-rmse(actual = t,predicted = estimated_theta)
-#JML
-modeJML<-tam.jml(resp=Answers)
+NumberPeople<-100
+t<-c(rnorm(NumberPeople))
+k<-10 #количество генераций
+ET<-matrix(0,nrow=k,ncol = NumberPeople) # матрица с estimated_teta
+ETSE<-matrix(0,nrow = k,ncol=NumberPeople) # матрица ошибок
+RMSE<-matrix(0,nrow = k,ncol =NumberPeople )
+Bias<-c()
+for (i in 1:k)
+{
+  N<-sample(10:25,1)  
+  AmountEnds<-sample(1:(N/2),1)
+  Vertices<-c(1:N)
+  NumberEnds<-Vertices[-(1:(N-AmountEnds))]
+  IncidMatr<-GenIncidenMatrix(N,OutOfDegree)
+  A<-Itparam(N,A)
+  B<-Itparam(N,B)
+  UserMatrix<-GenUserMatrix(IncidMatr,NumberPeople)
+  Answers<-GenAnswerMatrix(IncidMatr,UserMatrix)
+   # строчки 263-274 -проверяют матрицу ответов на наличие нулевых столбцов и столбцов из NA
+ # если таковой встречается, то пишется номер столбца и ошибка, и все генерируется заново.
+  j<-1
+  while (j!=dim(Answers)[2] +1)
+  { gh<-all(Answers[,j]<1)
+  if(is.na(gh)|gh)
+  { print(j)
+    print("Error!")
+    IncidMatr<-GenIncidenMatrix(N,OutOfDegree)
+    UserMatrix<-GenUserMatrix(IncidMatr,NumberPeople)
+    Answers<-GenAnswerMatrix(IncidMatr,UserMatrix)
+    j<-1
+  }else{j<-j+1}
+  }
+  fit<-tam.mml.2pl(resp=Answers,irtmodel = "2PL")
+  estimated_theta <- IRT.factor.scores(fit)[, 1]
+  ET[i,]<-estimated_theta
+  estimated_theta_se <- IRT.factor.scores(fit)[, 2]
+  ETSE[i,]<-estimated_theta_se
+  Bias[i]<-bias(parameter=t,estimated_theta)
+  RMSE[i,]<-RMSE(estimate=estimated_theta,parameter = t)
+}
