@@ -242,7 +242,7 @@ GenAnswerMatrix<-function(IncidMatr,UserMatrix){
 # 2PL.  MML
 #оценка,смещение
 NumberPeople<-100
-t<-c(rnorm(NumberPeople))
+Trteta<-matrix(0,nrow=k,ncol = NumberPeople)
 k<-10 #количество генераций
 ET<-matrix(0,nrow=k,ncol = NumberPeople) # матрица с estimated_teta
 ETSE<-matrix(0,nrow = k,ncol=NumberPeople) # матрица ошибок
@@ -250,6 +250,8 @@ RMSE<-matrix(0,nrow = k,ncol =NumberPeople )
 Bias<-c()
 for (i in 1:k)
 {
+t<-c(rnorm(NumberPeople))
+Trteta[i,]<-t
   N<-sample(10:25,1)  
   AmountEnds<-sample(1:(N/2),1)
   Vertices<-c(1:N)
@@ -281,7 +283,12 @@ for (i in 1:k)
   Bias[i]<-bias(parameter=t,estimated_theta)
   RMSE[i,]<-RMSE(estimate=estimated_theta,parameter = t)
 }
-#plotting
-plot(t,type = "l",col="red")
-points(ET[1,],col="green")
-lines(ET[1,],col="green")
+#plotting Teta-SE
+Ex<-cbind(Trteta=Trteta[i,],ETSE=ETSE[i,])
+Ex<-as.data.frame(Ex)
+ggplot(Ex)+geom_line(mapping = aes(x=Trteta,y=ETSE))
+#plotting Teta-Bias
+Ex<-cbind(Trteta=Trteta[i,],Bias)
+Ex<-as.data.frame(Ex)
+ggplot(Ex)+geom_line(mapping = aes(x=Trteta,y=Bias))
+
