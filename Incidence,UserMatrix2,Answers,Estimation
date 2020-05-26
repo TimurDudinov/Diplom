@@ -251,15 +251,16 @@ GenAnswerMatrix<-function(IncidMatr,UserMatrix){
 # 2PL.  MML
 #оценка,смещение
 NumberPeople<-1000
+k<-100
 t<-c(rnorm(NumberPeople))
-Estimation<-function(NumberPeople,k,t){
+OutOfDegree<-4
+Estimation<-function(NumberPeople,k,t,OutOfDegree){
 ET<-matrix(0,nrow=k,ncol = NumberPeople)
 ETSE<-matrix(0,nrow = k,ncol=NumberPeople)
 Questions<-c(10,15,20,25,30)
 for (v in 1:length(Questions))
 {
 N<-Questions[v]
-OutOfDegree<-4
 Results<-matrix(0,ncol = 4,nrow=length(Questions))
 colnames(Results)<-c("OutOfDegree","StandardBias","MSE,","RMSE")
 rownames(Results)<-c("N=10","N=15","N=20","N=25", "N=30")
