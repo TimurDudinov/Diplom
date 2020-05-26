@@ -248,16 +248,21 @@ GenAnswerMatrix<-function(IncidMatr,UserMatrix){
   Answers<-as.data.frame(Answers)
   return(Answers)
 }
-#оценки
 # 2PL.  MML
 #оценка,смещение
 NumberPeople<-1000
 t<-c(rnorm(NumberPeople))
-N<-10
-OutOfDegree<-4
-k<-100
+Estimation<-function(NumberPeople,k,t){
 ET<-matrix(0,nrow=k,ncol = NumberPeople)
 ETSE<-matrix(0,nrow = k,ncol=NumberPeople)
+Questions<-c(10,15,20,25,30)
+for (v in 1:length(Questions))
+{
+N<-Questions[v]
+OutOfDegree<-4
+Results<-matrix(0,ncol = 4,nrow=length(Questions))
+colnames(Results)<-c("OutOfDegree","StandardBias","MSE,","RMSE")
+rownames(Results)<-c("N=10","N=15","N=20","N=25", "N=30")
 for (i in 1:k)
 {
   AmountEnds<-sample(1:(N/2),1)
@@ -298,6 +303,12 @@ for (i in 1:k)
 }
 #AverageTeta
 AverageTeta<-colSums(ET)/k
+Sbias<-bias(t,AverageTeta,type = "standardized")
+MSE<-var(AverageTeta)+Sbias^2
+#RMSE
+rmse<-sqrt(MSE)
+#Results
+Results[v,]<-c(OutOfDegree,Sbias,MSE,rmse)
 #EmpiricalSE
 ESE<-matrix(0,nrow = k,ncol=NumberPeople)
 for (i in 1:k)
@@ -305,18 +316,9 @@ for (i in 1:k)
   ESE[i,]<-(ET[i,]-AverageTeta)^2
 }
 ESE<-sqrt(colSums(ESE)/k)
-#Standarized bias
-Sbias<-bias(t,AverageTeta,type = "standardized")
-Sbias<-abs(Sbias)
-#relative bias
-bias(t,AverageTeta,abs = T,type = "relative")
-#parameter bias
-bias(t,AverageTeta)
-#MSE
-MSE<-var(AverageTeta)+Sbias^2
-#RMSE
-rmse<-sqrt(MSE)
-
+}  
+ return(Results)
+}
 
 
 
