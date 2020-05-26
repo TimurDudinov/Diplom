@@ -6,15 +6,15 @@ library(igraph)#for working with graph
 library(ggplot2)#for plotting graph
 library(TAM)#for tam.mml,tam.jml
 library(SimDesign)#for calculate bias
-#матрица инцидентности
 N<-
-OutOfDegree<-
-AmountEnds<-sample(1:(N-2),1)
+  OutOfDegree<-
+  AmountEnds<-sample(1:(N/2),1)
 Vertices<-c(1:N)
+NumberEnds<-Vertices[-(1:(N-AmountEnds))]
 #Ends<-Vertices[-(1:(N-AmountEnds))]
 #NumberEnds<-c(sample(2:N,AmountEnds))
 #NumberEnds<-NumberEnds[order(NumberEnds)]#упорядочили по возрастанию
-NumberEnds<-Vertices[-(1:(N-AmountEnds))]
+
 DelZeroColumn<-function(A){
   B<-A
   k <- 0
@@ -63,7 +63,9 @@ GenIncidenMatrix <- function(N, OutOfDegree) {
   return(A)
 }
 #матрица пользователей
+
 IncidMatr<-GenIncidenMatrix(N,OutOfDegree)
+
 NumberPeople<-1000
 NameRows<-function(NumberPeople) #
 {
@@ -71,20 +73,46 @@ NameRows<-function(NumberPeople) #
   persons<-paste0("person",np)
   return(persons)
 }
-t<-c(rnorm(NumberPeople))
-Itparam<-function(N,A) #создает матрицу параметров вопроса
-{
-  A<-matrix(0,nrow = (N-AmountEnds),ncol = OutOfDegree)
-  for(i in 1:(N-AmountEnds))
+
+
+  A<-matrix(0,nrow = N,ncol = OutOfDegree)
+  for(i in 1:N)
   {
-    a<-c(rnorm(OutOfDegree))
+    a<-c(rlnorm(OutOfDegree))
     A[i,]<-a
   }
-  return(A)
-}
+  B<-matrix(0,nrow = N,ncol = OutOfDegree)
+  for (i in 1:N)
+  {
+    b<-c(rnorm(OutOfDegree))
+    B[i,]<-b
+  }
+ 
 t<-c(rnorm(NumberPeople))
-A<-Itparam(N,A)
-B<-Itparam(N,B)
+GenProb<-function(A,B,teta)
+{
+Z<-matrix(0,ncol=OutOfDegree,nrow=(N-AmountEnds))
+for (i in 1:(N-AmountEnds))
+{ j<-1
+while (j!=OutOfDegree+1)
+{
+  Z[i,j]<-A[i,j]*teta+B[i,j]
+  j<-j+1
+}
+}
+P<-matrix(0,ncol=OutOfDegree,nrow=(N-AmountEnds))
+for (i in 1:(N-AmountEnds))
+{
+  j<-1
+  while(j!=OutOfDegree+1)
+  {
+    P[i,j]<-exp(Z[i,j])/sum(exp(Z[i,])) 
+    j<-j+1
+  }
+}
+return(P)
+}
+
 GenUserMatrix<-function(IncidMatr,NumberPeople)
 { 
   copy<-NumberEnds
@@ -104,26 +132,7 @@ GenUserMatrix<-function(IncidMatr,NumberPeople)
   for (pr in 1:NumberPeople)
   {
     teta<-t[pr]
-    Z<-matrix(0,ncol=OutOfDegree,nrow=(N-AmountEnds))
-    for (i in 1:(N-AmountEnds))
-    { j<-1
-    while (j!=OutOfDegree+1)
-    {
-      Z[i,j]<-A[i,j]*teta+B[i,j]
-      j<-j+1
-    }
-    }
-    Z<-Z[-NumberEnds,]
-    P<-matrix(0,ncol=OutOfDegree,nrow=(N-AmountEnds))
-    for (i in 1:(N-AmountEnds))
-    {
-      j<-1
-      while(j!=OutOfDegree+1)
-      {
-        P[i,j]<-exp(Z[i,j])/sum(exp(Z[i,])) 
-        j<-j+1
-      }
-    }
+   P<-GenProb(A,B,teta)
     p<-P[1,]
     re<-sample(fire,1,prob = p)#чтобы мы всегда выходили из первой вершины
     UserMatrix[pr,re]<-1
@@ -150,7 +159,7 @@ GenUserMatrix<-function(IncidMatr,NumberPeople)
         NumberEdge<-NumberEdge[!is.na(NumberEdge)]
         if (is.null(NumberEdge) != T)
         {
-          p<-P[nv,]# вероятность с учетом параметров вопроса,куда будем переходить по ребру из NumberEdge
+          p<-P[nv,]
           re<-sample(NumberEdge,1,prob = p)#следующее ребро
           UserMatrix[pr,re]<-1
         }else{#если NumberEdge нулевой,то мы находимя в термиенальной вершине
@@ -166,9 +175,9 @@ GenUserMatrix<-function(IncidMatr,NumberPeople)
 }
 UserMatrix<-GenUserMatrix(IncidMatr,NumberPeople)
 #матрица ответов
-InCategories<-function(Answers){ # размещает ребра-ответы по категориям
+InCategories<-function(Answers){
   M<-dim(IncidMatr)[2]
-  Categories<-matrix(0,ncol=OutOfDegree,nrow=(N-AmountEnds))#матрица, в которой номер столбца - это номер категории минус 1
+  Categories<-matrix(0,ncol=OutOfDegree,nrow=(N-AmountEnds))
   for (i in 1:(N-AmountEnds))
   { ne<-c()
   j<-1
@@ -236,33 +245,39 @@ GenAnswerMatrix<-function(IncidMatr,UserMatrix){
   }
   Answers<-InCategories(Answers)
   Answers<-Answers[,-NumberEnds]# удаляются нулевые столбцы
+  Answers<-as.data.frame(Answers)
   return(Answers)
 }
 #оценки
 # 2PL.  MML
 #оценка,смещение
-NumberPeople<-100
-Trteta<-matrix(0,nrow=k,ncol = NumberPeople)
-k<-10 #количество генераций
-ET<-matrix(0,nrow=k,ncol = NumberPeople) # матрица с estimated_teta
-ETSE<-matrix(0,nrow = k,ncol=NumberPeople) # матрица ошибок
-RMSE<-matrix(0,nrow = k,ncol =NumberPeople )
-Bias<-c()
+NumberPeople<-1000
+t<-c(rnorm(NumberPeople))
+N<-10
+OutOfDegree<-4
+k<-100
+ET<-matrix(0,nrow=k,ncol = NumberPeople)
+ETSE<-matrix(0,nrow = k,ncol=NumberPeople)
 for (i in 1:k)
 {
-t<-c(rnorm(NumberPeople))
-Trteta[i,]<-t
-  N<-sample(10:25,1)  
   AmountEnds<-sample(1:(N/2),1)
   Vertices<-c(1:N)
   NumberEnds<-Vertices[-(1:(N-AmountEnds))]
   IncidMatr<-GenIncidenMatrix(N,OutOfDegree)
-  A<-Itparam(N,A)
-  B<-Itparam(N,B)
+  A<-matrix(0,nrow = N,ncol = OutOfDegree)
+  for(l in 1:N)
+  {
+    a<-c(rlnorm(OutOfDegree))
+    A[l,]<-a
+  }
+  B<-matrix(0,nrow = N,ncol = OutOfDegree)
+  for (l in 1:N)
+  {
+    b<-c(rnorm(OutOfDegree))
+    B[l,]<-b
+  }
   UserMatrix<-GenUserMatrix(IncidMatr,NumberPeople)
   Answers<-GenAnswerMatrix(IncidMatr,UserMatrix)
-   # строчки 263-274 -проверяют матрицу ответов на наличие нулевых столбцов и столбцов из NA
- # если таковой встречается, то пишется номер столбца и ошибка, и все генерируется заново.
   j<-1
   while (j!=dim(Answers)[2] +1)
   { gh<-all(Answers[,j]<1)
@@ -280,15 +295,30 @@ Trteta[i,]<-t
   ET[i,]<-estimated_theta
   estimated_theta_se <- IRT.factor.scores(fit)[, 2]
   ETSE[i,]<-estimated_theta_se
-  Bias[i]<-bias(parameter=t,estimated_theta)
-  RMSE[i,]<-RMSE(estimate=estimated_theta,parameter = t)
 }
-#plotting Teta-SE
-Ex<-cbind(Trteta=Trteta[i,],ETSE=ETSE[i,])
-Ex<-as.data.frame(Ex)
-ggplot(Ex)+geom_line(mapping = aes(x=Trteta,y=ETSE))
-#plotting Teta-Bias
-Ex<-cbind(Trteta=Trteta[i,],Bias)
-Ex<-as.data.frame(Ex)
-ggplot(Ex)+geom_line(mapping = aes(x=Trteta,y=Bias))
+#AverageTeta
+AverageTeta<-colSums(ET)/k
+#EmpiricalSE
+ESE<-matrix(0,nrow = k,ncol=NumberPeople)
+for (i in 1:k)
+{
+  ESE[i,]<-(ET[i,]-AverageTeta)^2
+}
+ESE<-sqrt(colSums(ESE)/k)
+#Standarized bias
+Sbias<-bias(t,AverageTeta,type = "standardized")
+Sbias<-abs(Sbias)
+#relative bias
+bias(t,AverageTeta,abs = T,type = "relative")
+#parameter bias
+bias(t,AverageTeta)
+#MSE
+MSE<-var(AverageTeta)+Sbias^2
+#RMSE
+rmse<-sqrt(MSE)
+
+
+
+
+
 
